@@ -1,0 +1,6 @@
+name: Delete All
+type: module
+description: 'Demo for creating Drupal 8 forms.'
+package: Custom
+core: 8.x
+hidden: false

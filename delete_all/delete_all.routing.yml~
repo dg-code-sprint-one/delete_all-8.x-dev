@@ -1,0 +1,21 @@
+delete_all:
+  path: 'admin/content/delete_content'
+  defaults:
+    _form: '\Drupal\delete_all\Form\DeleteallForm'
+    _title: 'Delete all content page'
+  requirements:
+    _permission: 'access content'
+delete_all.confirm:
+  path: 'admin/content/delete_content_confirm'
+  defaults:
+    _form: '\Drupal\delete_all\Form\DeleteallContetConfirm'
+    _title: 'Delete all content confirm page'
+  requirements:
+    _permission: 'access content'
+delete_all.user:
+  path: 'admin/content/delete_user'
+  defaults:
+    _form: '\Drupal\delete_all\Form\DeleteallUserForm'
+    _title: 'Delete all content user page'
+  requirements:
+    _permission: 'access content'
