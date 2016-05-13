@@ -82,7 +82,8 @@ class DeleteallForm extends FormBase {
     'method' => array(
       '#type' => 'radios',
       '#title' => t('Method'),
-      '#options' => array('normal' => t('Normal'), 'quick' => t('Quick')),
+      '#options' => array('normal' => t('Normal')),
+      //'#options' => array('normal' => t('Normal'), 'quick' => t('Quick')),      
       '#default_value' => 'normal',
       '#description' => t('Normal node delete calls node_delete() on every node in the database.  If you have only a few hundred nodes, this can take a very long time.  Use the quick node delete method to get around this problem.  This method deletes directly from the database, skipping the extra php processing.  The downside is that it can miss related tables that are normally handled by module hook_delete\'s.'),
     ),
