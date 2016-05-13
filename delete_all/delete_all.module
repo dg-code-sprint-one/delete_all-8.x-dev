@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * The module that allows to delete allcontent and Users of the site.
+ *
+ */
+
