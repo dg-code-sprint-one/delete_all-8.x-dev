@@ -13,13 +13,6 @@ use Drupal\Core\Url;
 /**
  * Contribute form.
  */
-  // $result = db_query("SELECT type, COUNT(*) AS num FROM {node} GROUP BY type");
-  // $count = array();
-  // foreach ($result as $data) {
-  //   $count[$data->type] = $data->num;
-  // }
-  // echo '<pre>';print_r($result);exit;
-
 class DeleteallForm extends FormBase {
   /**
    * {@inheritdoc}
@@ -27,12 +20,17 @@ class DeleteallForm extends FormBase {
   public function getFormId() {
     return 'delete_all_form';
   }
+    protected function getEditableConfigNames() {
+    return [
+      'delete_all.settings',
+    ];
+  }
   /**
    * {@inheritdoc}
    */
 
   public function buildForm(array $form, FormStateInterface $form_state) {
-
+  $settings = $this->config('delete_all.settings');
   $result = db_query("SELECT type, COUNT(*) AS num FROM {node} GROUP BY type");
   $count = array();
   foreach ($result as $data) {
@@ -89,16 +87,10 @@ class DeleteallForm extends FormBase {
       '#description' => t('Normal node delete calls node_delete() on every node in the database.  If you have only a few hundred nodes, this can take a very long time.  Use the quick node delete method to get around this problem.  This method deletes directly from the database, skipping the extra php processing.  The downside is that it can miss related tables that are normally handled by module hook_delete\'s.'),
     ),
   );
-    $form['actions']['delete'] = array(
-      '#type' => 'link',
-      '#title' => $this->t('Delete'),
-      '#attributes' => array(
-        'class' => array('button'),
-      ),
-      '#weight' => 0,
-      '#url' => Url::fromRoute('delete_all.confirm'),
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Submit'),
     );
-  // $form['#action'] = url('admin/content/delete_content/confirm');
   return $form;
   }
 
@@ -106,37 +98,19 @@ class DeleteallForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-
-     // Validate video URL.
-    // if (!UrlHelper::isValid($form_state->getValue('video'), TRUE)) {
-    //   $form_state->setErrorByName('video', $this->t("The video url '%url' is invalid.", array('%url' => $form_state->getValue('video'))));
-    // }
-
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-// echo '<pre>';print_r($form_state);exit;
-    // Display result.
-// $nids_query = db_select('node', 'n')
-// ->fields('n', array('nid'))
-//->condition('n.type', $types, 'IN')
-// ->range(0, 500)
-// ->execute();
-
-// $nids = $nids_query->fetchCol();
-
-// entity_delete_multiple('node', $nids);
-        //echo '<pre>';print_r($form_state);exit;
-    // $new1 = NULL;
-    // $delete_url = Url::fromRoute('delete_all.confirm',array('form_state'=>$new1));
-
-    // $form_state->setRedirect($delete_url);
-    //Url::fromRoute('delete_all.confirm',array('form_state'=>$data));
-
-
+    $this->configFactory()->getEditable('delete_all.settings')
+    ->set('all', $form_state->getValue('all'))
+    ->set('reset', $form_state->getValue('reset'))
+    ->set('types', $form_state->getValue('types'))
+    ->set('method', $form_state->getValue('method'))
+    ->save();
+     $form_state->setRedirect('delete_all.confirm');
   }
 }
 ?>

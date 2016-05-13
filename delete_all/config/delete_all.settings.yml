@@ -1,0 +1,5 @@
+all : par
+reset : par
+types : par
+method : par
+
